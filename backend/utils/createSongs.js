@@ -6,7 +6,7 @@ import Song from '../models/songModel.js';
 const predefinedTracks = [
     {
       title: 'Track 1',
-      artist: 'Artist 1',
+      artist: 'Arijit Sing ',
       url: 'https://example.com/track1.mp3',
     },
     {
