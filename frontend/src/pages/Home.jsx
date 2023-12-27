@@ -55,15 +55,21 @@ const Home = () => {
     }
   };
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     const searchTerm = event.target.value.toLowerCase();
     setSearchTerm(searchTerm);
-    const filtered = tracks.filter(
-      (track) =>
-        track.title.toLowerCase().includes(searchTerm) ||
-        track.artist.toLowerCase().includes(searchTerm)
-    );
-    setFilteredTracks(filtered);
+
+    if (searchTerm.trim() === '') {
+      setFilteredTracks(tracks);
+    } else {
+      try {
+        const response = await fetch(`http://localhost:8000/api/songs/searchSong?query=${searchTerm}`);
+        const data = await response.json();
+        setFilteredTracks(data.songs);
+      } catch (error) {
+        console.error('Error searching for tracks:', error);
+      }
+    }
   };
 
   return (
