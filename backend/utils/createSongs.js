@@ -7,12 +7,12 @@ const predefinedTracks = [
     {
       title: 'Track 1',
       artist: 'Arijit Sing ',
-      url: 'https://example.com/track1.mp3',
+      url: 'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3',
     },
     {
       title: 'Track 2',
       artist: 'Artist 2',
-      url: 'https://drive.google.com/file/d/1PXdE1US0tf_pM0JDmh6e7Rc5_s2kyF2q/view?usp=sharing',
+      url: 'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3',
     },
   ];
   
