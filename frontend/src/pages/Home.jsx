@@ -7,6 +7,8 @@ const Home = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioPlayer, setAudioPlayer] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState(null);
+  const [noResults, setNoResults] = useState(false);
 
   useEffect(() => {
     // Fetch tracks from the API
@@ -54,20 +56,29 @@ const Home = () => {
       setIsPlaying(true);
     }
   };
-
   const handleSearch = async (event) => {
     const searchTerm = event.target.value.toLowerCase();
     setSearchTerm(searchTerm);
 
     if (searchTerm.trim() === '') {
       setFilteredTracks(tracks);
+      setNoResults(false);
+      setError(null);
     } else {
       try {
-        const response = await fetch(`http://localhost:8000/api/songs/searchSong?query=${searchTerm}`);
+        const response = await fetch(`http://localhost:8000/api/songs/search?query=${searchTerm}`);
+        if (!response.ok) {
+          throw new Error('Search failed');
+        }
         const data = await response.json();
         setFilteredTracks(data.songs);
+        setNoResults(data.songs.length === 0);
+        setError(null);
       } catch (error) {
         console.error('Error searching for tracks:', error);
+        setError('An error occurred while searching.');
+        setFilteredTracks([]); // Clear tracks on error
+        setNoResults(true);
       }
     }
   };
@@ -82,6 +93,11 @@ const Home = () => {
         value={searchTerm}
         onChange={handleSearch}
       />
+       {noResults && (
+        <div className="text-center text-gray-600 mt-4">
+          No tracks found for {searchTerm}.
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-4">
         {filteredTracks.map((track) => (
           <div key={track._id} className="bg-gray-200 p-4 rounded-md">
