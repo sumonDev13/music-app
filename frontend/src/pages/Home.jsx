@@ -1,4 +1,4 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const Home = () => {
   const [tracks, setTracks] = useState([]);
@@ -6,21 +6,21 @@ const Home = () => {
   const [currentTrack, setCurrentTrack] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioPlayer, setAudioPlayer] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState(null);
   const [noResults, setNoResults] = useState(false);
 
   useEffect(() => {
-    // Fetch tracks from the API
     const fetchTracks = async () => {
       try {
-        // Fetch tracks from the API
-        const response = await fetch('http://localhost:8000/api/songs/getSongs');
+        const response = await fetch(
+          "http://localhost:8000/api/songs/getSongs"
+        );
         const data = await response.json();
-        setTracks(data); // Set tracks data from the API response
-        setFilteredTracks(data); // Initialize filtered tracks with all tracks
+        setTracks(data);
+        setFilteredTracks(data);
       } catch (error) {
-        console.error('Error fetching tracks:', error);
+        console.error("Error fetching tracks:", error);
       }
     };
 
@@ -31,12 +31,12 @@ const Home = () => {
     const audio = new Audio();
     setAudioPlayer(audio);
 
-    audio.addEventListener('ended', () => {
+    audio.addEventListener("ended", () => {
       setIsPlaying(false);
     });
 
     return () => {
-      audio.removeEventListener('ended', () => {
+      audio.removeEventListener("ended", () => {
         setIsPlaying(false);
       });
     };
@@ -60,24 +60,26 @@ const Home = () => {
     const searchTerm = event.target.value.toLowerCase();
     setSearchTerm(searchTerm);
 
-    if (searchTerm.trim() === '') {
+    if (searchTerm.trim() === "") {
       setFilteredTracks(tracks);
       setNoResults(false);
       setError(null);
     } else {
       try {
-        const response = await fetch(`http://localhost:8000/api/songs/search?query=${searchTerm}`);
+        const response = await fetch(
+          `http://localhost:8000/api/songs/search?query=${searchTerm}`
+        );
         if (!response.ok) {
-          throw new Error('Search failed');
+          throw new Error("Search failed");
         }
         const data = await response.json();
         setFilteredTracks(data.songs);
         setNoResults(data.songs.length === 0);
         setError(null);
       } catch (error) {
-        console.error('Error searching for tracks:', error);
-        setError('An error occurred while searching.');
-        setFilteredTracks([]); // Clear tracks on error
+        console.error("Error searching for tracks:", error);
+        setError("An error occurred while searching.");
+        setFilteredTracks([]);
         setNoResults(true);
       }
     }
@@ -93,7 +95,7 @@ const Home = () => {
         value={searchTerm}
         onChange={handleSearch}
       />
-       {noResults && (
+      {noResults && (
         <div className="text-center text-gray-600 mt-4">
           No tracks found for {searchTerm}.
         </div>
@@ -108,7 +110,9 @@ const Home = () => {
                 onClick={() => playTrack(track)}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md mr-2"
               >
-                {currentTrack?.url === track.url && isPlaying ? 'Pause' : 'Play'}
+                {currentTrack?.url === track.url && isPlaying
+                  ? "Pause"
+                  : "Play"}
               </button>
             </div>
           </div>

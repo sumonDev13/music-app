@@ -10,10 +10,9 @@ export const getSongs = async (req,res) => {
 };
 
 export const searchSongs = async (req, res) => {
-  const { query } = req.query; // Assuming the search query is passed as a query parameter
+  const { query } = req.query; 
 
   try {
-    // Perform a case-insensitive search on 'title' and 'artist' fields using regular expression
     const songs = await Song.find({
       $or: [
         { title: { $regex: query, $options: 'i' } },
