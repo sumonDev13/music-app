@@ -17,22 +17,22 @@ const predefinedTracks = [
     {
       title: 'Prem',
       artist: 'James',
-      url: 'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3',
+      url: 'http://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg',
     },
     {
       title: 'Ek Mutho Rod',
       artist: 'Balam',
-      url: 'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3',
+      url: 'http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3',
     },
     {
       title: 'Ek Mutho Rod',
       artist: 'Shera Ghoshal',
-      url: 'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3',
+      url: 'https://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/fx/engine-3.ogg',
     },
     {
       title: 'Dil ibadat',
       artist: 'KK',
-      url: 'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3',
+      url: 'https://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/win.ogg',
     },
   ];
   
