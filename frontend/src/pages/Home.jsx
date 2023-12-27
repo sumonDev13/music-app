@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 
 const Home = () => {
   const [tracks, setTracks] = useState([]);
+  const [filteredTracks, setFilteredTracks] = useState([]);
   const [currentTrack, setCurrentTrack] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioPlayer, setAudioPlayer] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     // Fetch tracks from the API
@@ -14,12 +16,28 @@ const Home = () => {
         const response = await fetch('http://localhost:8000/api/songs/getSongs');
         const data = await response.json();
         setTracks(data); // Set tracks data from the API response
+        setFilteredTracks(data); // Initialize filtered tracks with all tracks
       } catch (error) {
         console.error('Error fetching tracks:', error);
       }
     };
 
     fetchTracks();
+  }, []);
+
+  useEffect(() => {
+    const audio = new Audio();
+    setAudioPlayer(audio);
+
+    audio.addEventListener('ended', () => {
+      setIsPlaying(false);
+    });
+
+    return () => {
+      audio.removeEventListener('ended', () => {
+        setIsPlaying(false);
+      });
+    };
   }, []);
 
   const playTrack = (track) => {
@@ -37,26 +55,29 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    const audio = new Audio();
-    setAudioPlayer(audio);
-
-    audio.addEventListener('ended', () => {
-      setIsPlaying(false);
-    });
-
-    return () => {
-      audio.removeEventListener('ended', () => {
-        setIsPlaying(false);
-      });
-    };
-  }, []);
+  const handleSearch = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    setSearchTerm(searchTerm);
+    const filtered = tracks.filter(
+      (track) =>
+        track.title.toLowerCase().includes(searchTerm) ||
+        track.artist.toLowerCase().includes(searchTerm)
+    );
+    setFilteredTracks(filtered);
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">Music Tracks</h1>
+      <input
+        type="text"
+        placeholder="Search by title or artist"
+        className="border border-gray-300 rounded-md px-4 py-2 mb-4"
+        value={searchTerm}
+        onChange={handleSearch}
+      />
       <div className="grid grid-cols-2 gap-4">
-        {tracks.map((track) => (
+        {filteredTracks.map((track) => (
           <div key={track._id} className="bg-gray-200 p-4 rounded-md">
             <h2 className="text-xl font-semibold">{track.title}</h2>
             <p className="text-gray-600">{track.artist}</p>
